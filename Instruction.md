@@ -14,7 +14,41 @@ g++ -std=c++2a -E - < /dev/null
 `-E`选项告诉编译器只进行预处理，而不进行编译和链接步骤。
 最后，`- < /dev/null`表示将标准输入重定向到`/dev/null`，以便编译器不必读取任何输入。
 
-# 2.
+# 2. 安装gxx（交叉编译）
 
- 
+1）查看版本和安装
 
+```shell
+apt-cache search aarch64
+sudo apt-get install gcc-9-aarch64-linux-gnu
+sudo apt-get install g++-9-aarch64-linux-gnu
+```
+
+
+
+2）然后选择可以安装的版本进行安装, 例如选择gcc-9-aarch64-linux-gnu和g++-9-aarch64-linux-gnu
+
+```shell
+sudo apt-get install gcc-9-aarch64-linux-gnu
+sudo apt-get install g++-9-aarch64-linux-gnu
+```
+
+3） 安装依赖
+
+```shell
+sudo apt --fix-broken install
+```
+
+4）安装一个没有版本号的gcc和g++
+
+```shell
+sudo apt-get install gcc-aarch64-linux-gnu 
+sudo apt-get install g++-aarch64-linux-gnu
+```
+
+5）查看版本
+
+```shell
+aarch64-linux-gnu-g++ -v 
+aarch64-linux-gnu-gcc -v
+```
