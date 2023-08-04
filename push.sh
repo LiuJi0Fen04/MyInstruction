@@ -1,8 +1,10 @@
 #!/bin/bash
 
+# Cillian Young
+
 folder=".git"
 Log="log.txt"
-if [ $# == 1 ]; then
+if [ $# -ge 1 ]; then
     if [ -d $folder ]; then 
         echo "> find repository"
         time3=$(date "+%Y-%m-%d %H:%M:%S")
@@ -11,7 +13,7 @@ if [ $# == 1 ]; then
             touch $Log
             chmod +x $Log
             echo "> Success create $Log"
-            ehco -e "---log create---" >> $Log
+            echo -e "---log create---" >> $Log
         fi
         echo -e "$time3 -> log: $*" >> $Log
         git add . && git commit  -m "$*" && git push origin master
