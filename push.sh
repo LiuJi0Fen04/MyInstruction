@@ -11,8 +11,9 @@ if [ $# == 1 ]; then
             touch $Log
             chmod +x $Log
             echo "> Success create $Log"
+            ehco -e "---log create---" >> $Log
         fi
-        echo -e "$time3 -> log: $*" >> log.txt
+        echo -e "$time3 -> log: $*" >> $Log
         git add . && git commit  -m "$*" && git push origin master
     fi
 else
