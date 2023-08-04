@@ -1,9 +1,22 @@
 #!/bin/bash
 
 folder=".git"
-if [ -d $folder ]; then 
-  echo "> find repository"
-  echo "> (${date})pushing to origin..."
-  echo -e "${date} -> push log" >> log.txt
-  git add . && git commit  -m "routine update" && git push origin master
+Log="log.txt"
+if [ $# == 1 ]; then
+    if [ -d $folder ]; then 
+        echo "> find repository"
+        time3=$(date "+%Y-%m-%d %H:%M:%S")
+        echo "> ($time3)pushing to origin master ..."
+        if [ ! -f $Log ]; then
+            touch $Log
+            chmod +x $Log
+            echo "> Success create $Log"
+        fi
+        echo -e "$time3 -> log: $*" >> log.txt
+        git add . && git commit  -m "$*" && git push origin master
+    fi
+else
+    echo "> Error: short of parameter"
+    echo "  Usage: ./push Description"
+    echo "  \"Description\" could be the brief of this push or any thing you want"
 fi
