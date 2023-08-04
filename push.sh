@@ -4,6 +4,11 @@
 
 folder=".git"
 Log="log.txt"
+alter_folder="build"
+#if [ -d $alter_folder ]; then
+ #   cd ..
+#if
+
 if [ $# -ge 1 ]; then
     if [ -d $folder ]; then 
         echo "> find repository"
