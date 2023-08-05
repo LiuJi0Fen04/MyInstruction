@@ -25,6 +25,6 @@ if [ $# -ge 1 ]; then
     fi
 else
     echo "> Error: short of parameter"
-    echo "  Usage: ./push Description"
+    echo "  Usage: ./push <Description>"
     echo "  \"Description\" could be the brief of this push or any thing you want"
 fi

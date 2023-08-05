@@ -52,3 +52,17 @@ sudo apt-get install g++-aarch64-linux-gnu
 aarch64-linux-gnu-g++ -v 
 aarch64-linux-gnu-gcc -v
 ```
+
+# 二、Shell[（菜鸟shell）](https://www.runoob.com/linux/linux-shell-passing-arguments.html)
+
+## 1. echo
+
+```shell
+# 传值到相应的文件中
+echo -e "---log create---" >> $Log
+# 获取传入的参数数量，第一个参数，所有参数
+echo $# 
+echo $0
+echo $*
+```
+
