@@ -66,3 +66,50 @@ echo $0
 echo $*
 ```
 
+# 三、 CMAKE
+
+## 1. 如何正确使用find_package生成自己的库
+
+- use `.cmake.in` to generate the file `.cmake` which contains the information to use the library
+
+- `.cmake.in` at least contains the items that includes ` TableMsg_INCLUDE_DIRS, TableMsg_LIB_DIRS and TableMsg_LIB  ` , alternatively `LINK_DIRECTORIES` giving convenience to include the proper directories
+
+- example
+
+  `TableMsgConfig.cmake.in`
+
+  ```cmake
+  set(TableMsg_INCLUDE_DIRS @TableMsg_INCLUDE_DIRS@)
+  set(TableMsg_LIB_DIRS @TableMsg_LIB_DIRS@)
+  set(TableMsg_VERSION @TableMsg_VERSION@)
+  LINK_DIRECTORIES(${TableMsg_LIB_DIRS})
+  set(TableMsg_LIB @TableMsg_LIB@)
+  
+  ```
+
+  `CMakeLists.txt`
+
+  ```cmake
+  FILE(GLOB_RECURSE CLASS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+  foreach(item ${CLASS})
+      message("cpp: ${item}")
+  endforeach()
+  add_library(TableMsg SHARED ${CLASS})
+  
+  target_include_directories(TableMsg PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+  
+  set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+  
+  set(TableMsg_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include)
+  set(TableMsg_LIB_DIRS ${PROJECT_SOURCE_DIR}/lib)
+  set(TableMsg_VERSION 1.0)
+  LINK_DIRECTORIES(${TableMsg_LIB_DIRS})
+  set(TableMsg_LIB TableMsg)
+  # config your library
+  configure_file(TableMsgConfig.cmake.in ${PROJECT_SOURCE_DIR}/lib/TableMsgConfig.cmake)
+  ```
+
+  
+
+## 2. 如何正确使用install
+
