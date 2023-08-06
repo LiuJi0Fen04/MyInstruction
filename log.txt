@@ -1,3 +1,8 @@
-2023-08-05 10:55:27 -> log: test
-2023-08-05 17:30:56 -> log: findpackage
-2023-08-05 23:40:37 -> log: mac
+multi -line output
+the second
+./test.sh
+
+0
+hello hello hello
+hello hello hello
+2023-08-06 23:46:28 -> log: routine_update

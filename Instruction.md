@@ -3,7 +3,7 @@
 # 1.检查g++支持的c++版本
 
 ```shell
-g++ -std=c++17 -E - < /dev/null
+g++ -std=c++17 -E - < /dev/null # without input 
 ```
 
 ```shell
@@ -58,13 +58,108 @@ aarch64-linux-gnu-gcc -v
 ## 1. echo
 
 ```shell
-# 传值到相应的文件中
+# 传值到相应的文件中(>> append, > write)
 echo -e "---log create---" >> $Log
 # 获取传入的参数数量，第一个参数，所有参数
 echo $# 
 echo $0
 echo $*
 ```
+
+
+
+## 2.cat
+
+```shell
+# multi-lines
+# cat <<EOF
+cat <<EOF >> <file> # outputs to a file
+multi-line output
+the second
+$0 # current file name 
+EOF
+```
+
+## 3.exit
+
+```shell
+exit 1
+```
+
+## 4.for
+
+```shell
+for a in "$@"; do
+    # operation
+done
+
+```
+
+
+
+## 5./dev/null
+
+`/dev/null` is a special file in Unix-like operating systems that discards all data written to it and provides no data to any process that reads from it, yielding EOF immediately. 
+
+It is often used to dispose of unwanted output streams of a process, or as a convenient empty file for input streams. This is usually done by redirection. For example, the command `my_script.sh > /dev/null` would redirect the standard output of the script `my_script.sh` to `/dev/null`, effectively discarding it. Similarly, `my_script.sh < /dev/null` would provide an immediate EOF to any read call from the script, which can be useful to detach a process from a tty.
+
+```shell
+#The command `> /dev/null 2> /dev/null` is used to redirect both the standard output and the #standard error streams to `/dev/null`, effectively discarding them. This is often used to suppress #any output from a command. The `>` operator redirects the standard output stream, while `2>` #redirects the standard error stream.
+> /dev/null 2> /dev/null
+```
+
+
+
+## 6. grep
+
+```shell
+# 检查输入的a 中是否有--prefix=开头的字符串
+echo $a | grep "^--prefix=" > /dev/null 2> /dev/null
+```
+
+The `grep` command is a powerful tool for searching text files for lines that match a given pattern. Here are some examples of how to use the `grep` command:
+
+1. **Search for a pattern in a file**: To search for a specific pattern in a file, you can use the `grep` command followed by the pattern and the file name. [For example, to search for the word “example” in a file named “file.txt”, you would use the command `grep example file.txt`](https://www.golinuxcloud.com/grep-command-in-linux/)[1](https://www.golinuxcloud.com/grep-command-in-linux/).
+
+2. **Search multiple files**: You can also use `grep` to search for a pattern in multiple files at once. To do this, simply list the file names after the pattern, separated by spaces. [For example, to search for the word “example” in three files named “file1.txt”, “file2.txt”, and “file3.txt”, you would use the command `grep example file1.txt file2.txt file3.txt`](https://www.golinuxcloud.com/grep-command-in-linux/)[1](https://www.golinuxcloud.com/grep-command-in-linux/).
+
+3. **Perform case-insensitive search**: By default, `grep` is case-sensitive, meaning it will only find matches that have the same capitalization as the pattern. However, you can use the `-i` option to perform a case-insensitive search. [For example, to search for the word “example” in a file named “file.txt” regardless of capitalization, you would use the command `grep -i example file.txt`](https://www.golinuxcloud.com/grep-command-in-linux/)[1](https://www.golinuxcloud.com/grep-command-in-linux/).
+
+4. **Search for whole words only**: If you want to search for whole words only (i.e., not substrings), you can use the `-w` option. [For example, to search for the whole word “example” in a file named “file.txt”, you would use the command `grep -w example file.txt`](https://www.golinuxcloud.com/grep-command-in-linux/)[1](https://www.golinuxcloud.com/grep-command-in-linux/).
+
+5. **Count the number of matching lines**: If you want to count the number of lines that match a given pattern, you can use the `-c` option. [For example, to count the number of lines containing the word “example” in a file named “file.txt”, you would use the command `grep -c example file.txt`](about:blank#)[1](https://www.golinuxcloud.com/grep-command-in-linux/).
+
+   ```shell
+   grep -c "^echo" Tutorial-1.0-Darwin.sh # find how many "echo" in the file in a line start 
+   grep -c "^echo" Tutorial-1.0-Darwin.sh test.txt # sreach multiple files
+   grep -i "echo" Tutorial-1.0-Darwin.sh # ignore case
+   grep -w "echo" Tutorial-1.0-Darwin.sh # search the whole word only
+   ```
+
+   
+
+## 7.sed
+
+The `sed` command is a powerful stream editor that can be used to perform basic text transformations on an input stream (a file or input from a pipeline). Here are some examples of how to use the `sed` command:
+
+1. **Replacing or substituting string**: The `sed` command is mostly used to replace text in a file. For example, to replace the word “unix” with “linux” in a file named “geekfile.txt”, you would use the command `sed 's/unix/linux/' geekfile.txt`. Here, the `s` specifies the substitution operation, the `/` are delimiters, the `unix` is the search pattern, and the `linux` is the replacement string. [By default, the `sed` command replaces only the first occurrence of the pattern in each line](https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/)[1](https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/).
+
+2. **Replacing the nth occurrence of a pattern in a line**: You can use flags like `/1`, `/2`, etc., to replace the first, second occurrence of a pattern in a line. [For example, to replace the second occurrence of the word “unix” with “linux” in a line in the file “geekfile.txt”, you would use the command `sed 's/unix/linux/2' geekfile.txt`](https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/)[1](https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/).
+
+3. **Replacing all occurrences of a pattern in a line**: The substitute flag `/g` (global replacement) specifies that the `sed` command should replace all occurrences of the string in the line. [For example, to replace all occurrences of the word “unix” with “linux” in the file “geekfile.txt”, you would use the command `sed 's/unix/linux/g' geekfile.txt`](about:blank#)[1](https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/).
+
+4. **Replacing from nth occurrence to all occurrences in a line**: You can use a combination of `/1`, `/2`, etc., and `/g` to replace all patterns from the nth occurrence of a pattern in a line. [For example, to replace the third, fourth, fifth… “unix” word with “linux” word in a line in the file “geekfile.txt”, you would use the command `sed 's/unix/linux/3g' geekfile.txt`](about:blank#)[1](https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/).
+
+   ```shell
+   # sed 会将得到的输出流输出
+   # the format is: sed 's/<str>/<substitution>/<which-one>'
+   sed 's/unix/linux/' geekfile.txt # the first of each line
+   sed 's/unix/\/linux/2' geekfile.txt # only the second of the line
+   sed 's/unix/\/linux/g' geekfile.txt # gobal
+   sed 's/unix/\/linux/1g' geekfile.txt # from nth to all (not work for mac?)
+   ```
+
+   
 
 # 三、 CMAKE
 
@@ -111,5 +206,33 @@ echo $*
 
   
 
-## 2. 如何正确使用install
+## 2. 如何正确使用install和cpack
+
+- 在cmakelist.txt使用install安装相应文件
+
+  ```cmake
+  install(FILES <file> DESTINATION <path>)
+  install(TARGETS <target> DESTINATION <path>)
+  ```
+
+  Then use the command:  `cmake install ..` 
+
+- cpack
+
+  First use install to collect bin, include and lib files which talked above,  next add code snippet below in cmakelists.txt to invoke 'cpack'
+
+  ```cmake
+  include(InstallRequiredSystemLibraries)
+  set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/License.txt")
+  set(CPACK_PACKAGE_VERSION_MAJOR "${Tutorial_VERSION_MAJOR}")
+  set(CPACK_PACKAGE_VERSION_MINOR "${Tutorial_VERSION_MINOR}")
+  set(CPACK_SOURCE_GENERATOR "TGZ")
+  include(CPack)
+  ```
+
+  - Run the command 'cpack'
+
+  ​     Then run the command generated by cmake
+
+
 
