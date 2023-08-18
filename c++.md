@@ -52,5 +52,16 @@ int &&z4 = x; // 错误，x是一个左值
 
 
 
-# 二、
+# 二、Debug
+
+# 1. error
+
+- `conversion from float to _Tp requires a narrowing conversion`
+
+```
+The error message you’re seeing, ‘conversion from float to _Tp requires a narrowing conversion’, indicates that you’re trying to assign a floating-point value to an integer type without an explicit cast. This can result in loss of precision, so the compiler generates a warning or error.
+Just explicitly cast the expression
+```
+
+
 
