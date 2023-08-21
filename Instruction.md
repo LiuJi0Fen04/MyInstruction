@@ -266,6 +266,31 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Ofast") # windows MSVC
 
 
 
+# 五、 PLATFORM
+
+## 1. windows
+
+### (1) lib & dll
+
+Yes, there is a difference between LIB and DLL files. [LIB files are static libraries, while DLL files are dynamic libraries](https://stackoverflow.com/questions/913691/dll-and-lib-files-what-and-why)[1](https://stackoverflow.com/questions/913691/dll-and-lib-files-what-and-why). A static library is a collection of object files that are linked with a program during the linking phase of the build process. This means that the code from the library is included in the final executable of the program. [On the other hand, a dynamic library is a collection of compiled code that can be used by multiple programs at runtime](https://stackoverflow.com/questions/1778111/whats-the-differences-between-dll-lib-h-files)[2](https://stackoverflow.com/questions/1778111/whats-the-differences-between-dll-lib-h-files).
+
+One advantage of using dynamic libraries is that they can be shared between multiple programs, which can save memory. [However, this also means that you need to have a copy of the dynamic library installed on every machine where your program runs](https://stackoverflow.com/questions/913691/dll-and-lib-files-what-and-why)[1](https://stackoverflow.com/questions/913691/dll-and-lib-files-what-and-why). [Static libraries, on the other hand, are included in the final executable of your program, so you don’t need to worry about distributing them separately](https://stackoverflow.com/questions/1778111/whats-the-differences-between-dll-lib-h-files)[2](https://stackoverflow.com/questions/1778111/whats-the-differences-between-dll-lib-h-files).
+
+[Another difference between LIB and DLL files is that LIB files can either contain code or just links to a dynamic library, while DLL files always contain code](https://stackoverflow.com/questions/1778111/whats-the-differences-between-dll-lib-h-files)[2](https://stackoverflow.com/questions/1778111/whats-the-differences-between-dll-lib-h-files). [Additionally, LIB files come off as a big large file, but DLL has multiple files](https://askanydifference.com/difference-between-lib-and-dll/)[3](https://askanydifference.com/difference-between-lib-and-dll/). 
+
+
+
+### (2) common used macro in sln(solution)
+
+```shell
+$(SolutionDir) # the solution directory includes the trailling backslash '\s'
+$(Platform) # for example x64
+$(Configuration) # for example Debug
+$(ProjectName) # the name of project
+$(TargetName) # in the example it is the same with $(ProjectName)
+$(TargetExt) # the type of the output file, for example '.exe'
+```
+
 
 
 
