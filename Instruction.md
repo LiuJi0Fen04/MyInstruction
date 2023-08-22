@@ -293,13 +293,31 @@ $(TargetExt) # the type of the output file, for example '.exe'
 
 
 
+### (3) the method to create a .dll through Visual Studio
 
+- Use the .def file (Project1.def)
 
+  ```shell
+  LIBRARY Project1
+  EXPORTS
+  	func1 @1 
+  # in which 'Project1' is the name of dynamic library that you want to export
+  # 'func1' is the name that headers contain
+  ```
 
+  This file should be placed in the folder of your projet or you can specify the location with the  built-in Macros
 
+- Use the macro 
 
+  ```c++
+  #define YOUR_API __declspec(dllexport) // use the YOUR_API ahead of function or class
+  ```
 
+​	**above method  is trivial but cannot be avoided which i don't prefer**
 
+- use CMakeLists
+
+  still tring to figure out but adding the macro **__declspec(dllexport) **perhaps gives the help
 
 
 

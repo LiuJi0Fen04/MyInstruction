@@ -1,10 +1,2 @@
-multi -line output
-the second
-./test.sh
-
-0
-hello hello hello
-hello hello hello
-2023-08-06 23:46:28 -> log: routine_update
-2023-08-18 17:51:18 -> log: push on windows2
-2023-08-21 18:25:39 -> log: visual studio macro
+---log create---
+2023-08-22 14:52:08 -> log: build dll using visual studio
