@@ -264,6 +264,50 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Ofast -Wfatal-errors")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Ofast") # windows MSVC
 ```
 
+## 2. windows上使用cmake链接库
+
+- 一个库链接另一个库的时候如果在编译之后进行链接，则使用
+
+  ```cmake
+  # windows
+  set(module1 ${OUTPUT_PREFIX}/lib/module1.lib)
+  target_link_libraries(module2 PUBLIC ${module1}) # 使用PUBLIC时可以指定链接module1
+  ```
+
+- 如果在编译的时候进行链接
+
+  
+
+  ```cmake
+  # windows
+  target_link_libraries(module2 PUBLIC module1) # 好像也是对的
+  ```
+
+  
+
+- 最外层的cmakelists包含了头文件之后内部的cmakelists不包含该头文件好像不会出错
+
+  
+
+## 3.  install keywords `ARCHIVE`  and `RUNTIME`
+
+[The `ARCHIVE` keyword is used to specify that the `.lib` file should be installed](https://cmake.org/cmake/help/book/mastering-cmake/chapter/Install.html)[1](https://cmake.org/cmake/help/book/mastering-cmake/chapter/Install.html).
+
+[The `RUNTIME` keyword is used to specify that the DLL file should be installed](https://cmake.org/cmake/help/book/mastering-cmake/chapter/Install.html)
+
+```cmake
+# CMakeLists.txt
+add_library(mylib SHARED mylib.cpp)
+install(TARGETS mylib
+        RUNTIME DESTINATION my/destination/dir)
+
+```
+
+```sh
+```
+
+## 4. 
+
 
 
 # 五、 PLATFORM
@@ -295,6 +339,8 @@ $(TargetExt) # the type of the output file, for example '.exe'
 
 ### (3) the method to create a .dll through Visual Studio
 
+**Use the IDE **
+
 - Use the .def file (Project1.def)
 
   ```shell
@@ -313,15 +359,48 @@ $(TargetExt) # the type of the output file, for example '.exe'
   #define YOUR_API __declspec(dllexport) // use the YOUR_API ahead of function or class
   ```
 
-​	**above method  is trivial but cannot be avoided which i don't prefer**
+​					**above method  is trivial but cannot be avoided which i don't prefer**
 
-- use CMakeLists
+**Use CMakeLists**
 
-  still tring to figure out but adding the macro **__declspec(dllexport) **perhaps gives the help
+- adding the macro **__declspec(dllexport) ** before the compile, and put the library in the path that environment path include 
+
+### (4)  "str" would  be implicitly converted to `const char*`
+
+```c++
+// func1
+void print(const char* a)
+{
+    std::cout << "const char: " << a << std::endl;
+}
+// func2
+void print(void* a)
+{
+    std::cout << "void*: " << a << std::endl;
+}
+// func3
+void print(std::string a)
+{
+    std::cout << "string: " << a << std::endl;
+}
+int main()
+{
+    print("test_str"); // "test_str" in c++ has the type of 'const char[]' 
+    return 1;
+}
+```
 
 
 
+String literals in C++ have the type `const char[]`, which can be implicitly converted to a `const char*`, and then to a `void*`. However, the conversion from a `const char*` to a `std::string` is not preferred over the conversion from a `const char*` to a `void*`, so the compiler cannot choose between the first and second `print` functions.
 
+**So the func* perference is: func1 > func2 > func3 in MSVC** 
+
+**When you compile and run the code on Linux using a standard-conforming C++ compiler such as GCC or Clang**, the `print` function that takes a `std::string` argument will be called, and the output will be `"string: test_str"`. This is because, according to the C++ standard, the conversion from a string literal to a `std::string` is preferred over the conversion from a string literal to a `void*`. However, as I mentioned earlier, **MSVC** behaves differently in this regard and treats the conversion to a `void*` as a better match. This behavior is **non-standard** and may not be portable to other compilers.
+
+
+
+This has caused a failure in the function "TableLine",  be careful 
 
 
 
